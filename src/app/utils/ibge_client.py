@@ -1,5 +1,5 @@
 from typing import Any, Literal, overload
-from app.models.ibge import Distrito, Municipio
+from app.models.ibge import UF, Distrito, Municipio
 from app.utils.types import RawJSONType
 import requests
 import abc
@@ -53,3 +53,16 @@ class IBGELocalidadesClient(IBGEClientBase):
         municipios: list[RawJSONType] = self._make_request("municipios")
 
         return municipios if not return_model else [Municipio(**d) for d in municipios]
+
+    @overload
+    def list_estados(
+        self, return_model: bool = Literal[False]
+    ) -> list[RawJSONType]: ...
+
+    @overload
+    def list_estados(self, return_model: bool = Literal[True]) -> list[UF]: ...
+
+    def list_estados(self, return_model: bool = False) -> list[RawJSONType] | list[UF]:
+        estados: list[RawJSONType] = self._make_request("estados")
+
+        return estados if not return_model else [UF(**d) for d in estados]

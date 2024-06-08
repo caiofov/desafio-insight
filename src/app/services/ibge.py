@@ -1,4 +1,4 @@
-from app.models.ibge import Distrito, Municipio
+from app.models.ibge import UF, Distrito, Municipio
 from typing import Any, Callable, TypeVar
 from app.utils.ibge_client import IBGELocalidadesClient
 from app.utils.types import RawJSONType
@@ -65,3 +65,13 @@ class IBGEService:
             lambda d: not search or d["nome"].lower().startswith(search),
             Municipio,
         )
+
+    def list_estados(self, search: str | None = None) -> list[UF]:
+        search = search.lower() if search else None  # not case sensitive
+        raw_data = self.ibge_client.list_estados()
+
+        data = []
+        for d in raw_data:
+            if not search or d["nome"].lower().startswith(search):
+                data.append(UF(**d))
+        return data

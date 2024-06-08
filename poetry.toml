@@ -1,0 +1,3 @@
+cache-dir = ".poetry_cache"
+[virtualenvs]
+path = ".venv"

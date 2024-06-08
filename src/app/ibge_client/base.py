@@ -10,7 +10,7 @@ class IBGEClientBase(abc.ABC):
         )
         super().__init__()
 
-    def _make_request(self, url: str, **kwargs: Any) -> Any:
-        r = requests.get(f"{self._base_url}/{url}", **kwargs)
+    def _make_request(self, url: str, method: str = "GET", **kwargs: Any) -> Any:
+        r = requests.request(method, f"{self._base_url}/{url}", **kwargs)
         r.raise_for_status()
         return r.json()

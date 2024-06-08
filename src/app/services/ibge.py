@@ -9,13 +9,21 @@ class IBGEService:
         self.localidades_url = f"{self.base_url}/localidades"
 
     def list_distritos(
-        self, page: int, per_page: int, order_by: str | None = None
+        self, page: int, per_page: int, search: str | None = None
     ) -> list[Distrito]:
         r = requests.get(f"{self.localidades_url}/distritos")
         r.raise_for_status()
         skip = (page - 1) * per_page
-        raw: list[dict[str, Any]] = r.json()
 
+        search = search.lower() if search else None  # not case sensitive
+        # filter
+        raw: list[dict[str, Any]] = (
+            r.json()
+            if not search
+            else [d for d in r.json() if d["nome"].lower().startswith(search)]
+        )
+
+        # transform to base model and pagination
         distritos = []
         for d in raw[skip:]:
             if len(distritos) > per_page:

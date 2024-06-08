@@ -10,7 +10,7 @@ router = APIRouter()
 def list_distritos(
     page: int = 1,
     per_page: int = 20,
-    order_by: str | None = None,
+    search: str | None = None,
     service: IBGEService = Depends(get_ibge_service),
 ) -> list[Distrito]:
-    return service.list_distritos(page, per_page, order_by)
+    return service.list_distritos(page, per_page, search)

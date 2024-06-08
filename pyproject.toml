@@ -5,17 +5,20 @@ description = ""
 authors = ["Caio Oliveira <cfoviana@alu.ufc.br>"]
 readme = "README.md"
 packages = [
-    { include = "app/*", from = "src" },
+    { include = "app", from = "src" },
 ]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.111.0"
 uvicorn = "^0.30.1"
+pydantic = "^2.7.3"
+requests = "^2.32.3"
 
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.10.0"
+types-requests = "^2.32.0.20240602"
 
 [build-system]
 requires = ["poetry-core"]

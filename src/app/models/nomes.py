@@ -29,8 +29,19 @@ class Registro(BaseModel):
         return value
 
 
+class Ocorrencia(BaseModel):
+    populacao: int
+    frequencia: int
+    proporcao: float
+
+
 class Nome(BaseModel):
     nome: str
     sexo: str | None
     localidade: str
     res: list[Registro]
+
+
+class NomeLocalidade(BaseModel):
+    localidade: int
+    res: list[Ocorrencia]

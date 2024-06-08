@@ -1,3 +1,4 @@
+from app.ibge_client.nomes import IBGENomesClient
 from app.models.localidades import (
     UF,
     Distrito,
@@ -6,6 +7,7 @@ from app.models.localidades import (
     MunicipioWithImediata,
 )
 from typing import Any, Callable, TypeVar
+from app.models.nomes import Nome
 from app.utils.errors import ItemNotFound
 from app.ibge_client.localidades import IBGELocalidadesClient
 from app.utils.types import RawJSONType
@@ -15,10 +17,11 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class IBGEService:
-    def __init__(self, _ibge_client: IBGELocalidadesClient) -> None:
-        self.base_url = "https://servicodados.ibge.gov.br/api/v1"
-        self.localidades_url = f"{self.base_url}/localidades"
-        self.ibge_client = _ibge_client
+    def __init__(
+        self, _ibge_localidades: IBGELocalidadesClient, _ibge_nomes: IBGENomesClient
+    ) -> None:
+        self.ibge_client = _ibge_localidades
+        self.ibge_nomes = _ibge_nomes
 
     def _filter_and_pagination(
         self,
@@ -112,3 +115,6 @@ class IBGEService:
                 return UF(**data)
 
         raise ItemNotFound(f"UF - id: {id}")
+
+    def get_names(self, names: list[str]) -> list[Nome]:
+        return self.ibge_nomes.get_names(names)

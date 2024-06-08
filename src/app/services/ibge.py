@@ -99,3 +99,16 @@ class IBGEService:
             if not search or d["nome"].lower().startswith(search):
                 data.append(UF(**d))
         return data
+
+    def get_estado(self, id: int | str) -> UF:
+        if isinstance(id, int):
+            return self.ibge_client.get_estado(id)
+        raw_data = self.ibge_client.list_estados()
+
+        id = id.lower()  # not case sensitive
+
+        for data in raw_data:
+            if data["nome"].lower() == id:
+                return UF(**data)
+
+        raise ItemNotFound(f"UF - id: {id}")

@@ -7,7 +7,7 @@ import logging
 
 app = FastAPI()
 
-app.include_router(ibge_router, prefix="/ibge")
+app.include_router(ibge_router, prefix="/ibge", tags=["IBGE"])
 
 logger = logging.getLogger("uvicorn.info")
 

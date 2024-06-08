@@ -13,6 +13,16 @@ class IBGENomesClient(IBGEClientBase):
         localidade: int | None = None,
         sex: Literal["F", "M"] | None = None,
     ) -> list[Nome]:
+        """Retorna dados dos nomes.
+
+        Args:
+            names (list[str]): Nomes para os quais os dados devem ser coletados
+            localidade (int | None, optional): Filtrar por localidade (ID do IBGE). Defaults to None.
+            sex (Literal['F', 'M'] | None, optional): Filtrar por sexo. Defaults to None.
+
+        Returns:
+            list[Nome]: Dados dos nomes
+        """
         params = {"localidade": localidade, "sexo": sex}
         params = {k: v for k, v in params.items() if v is not None}
 
@@ -20,5 +30,13 @@ class IBGENomesClient(IBGEClientBase):
         return [Nome(**n) for n in r]
 
     def get_name_grouped_by_uf(self, name: str) -> list[NomeLocalidade]:
+        """Retorna dados para um nome. Esses dados estão agrupados pela UF.
+
+        Args:
+            name (str): Nome para os quais os dados devem ser coletados
+
+        Returns:
+            list[NomeLocalidade]: Dados do nome
+        """
         r = self._make_request(name, params={"groupBy": "UFs"})
         return [NomeLocalidade(**n) for n in r]

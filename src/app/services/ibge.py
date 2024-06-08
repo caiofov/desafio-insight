@@ -7,7 +7,7 @@ from app.models.localidades import (
     MunicipioWithImediata,
 )
 from typing import Any, Callable, TypeVar
-from app.models.nomes import Nome
+from app.models.nomes import Nome, NomeLocalidade
 from app.utils.errors import ItemNotFound
 from app.ibge_client.localidades import IBGELocalidadesClient
 from app.utils.types import RawJSONType
@@ -118,3 +118,6 @@ class IBGEService:
 
     def get_names(self, names: list[str]) -> list[Nome]:
         return self.ibge_nomes.get_names(names)
+
+    def get_name_by_uf(self, name: str) -> list[NomeLocalidade]:
+        return self.ibge_nomes.get_name_grouped_by_uf(name)

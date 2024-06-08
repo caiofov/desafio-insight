@@ -1,6 +1,6 @@
 from typing import Iterator
 from app.services.ibge import IBGEService
-from app.utils.ibge_client import IBGELocalidadesClient
+from app.ibge_client import IBGELocalidadesClient
 from fastapi import Depends
 
 

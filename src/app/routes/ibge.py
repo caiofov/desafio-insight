@@ -16,7 +16,7 @@ def list_distritos(
     return service.list_distritos(page, per_page, search)
 
 
-@router.get("/estados")
+@router.get("/municipios")
 def list_municipios(
     page: int = 1,
     per_page: int = 20,

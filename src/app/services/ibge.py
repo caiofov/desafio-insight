@@ -7,7 +7,7 @@ from app.models.ibge import (
 )
 from typing import Any, Callable, TypeVar
 from app.utils.errors import ItemNotFound
-from app.utils.ibge_client import IBGELocalidadesClient
+from app.ibge_client.localidades import IBGELocalidadesClient
 from app.utils.types import RawJSONType
 from pydantic import BaseModel
 

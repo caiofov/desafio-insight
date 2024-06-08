@@ -1,10 +1,11 @@
+from app.utils.enums import SiglaRegiao
 from pydantic import BaseModel
 
 
 class Regiao(BaseModel):
     id: int
     nome: str
-    sigla: str
+    sigla: SiglaRegiao
 
 
 class UF(BaseModel):

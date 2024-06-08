@@ -47,7 +47,7 @@ class Municipio(BaseModel):
     microrregiao: Microrregiao | MicrorregiaoWithImediata | None
 
 
-class MunicipioWithImediata(BaseModel):
+class MunicipioWithImediata(Municipio):
     microrregiao: Microrregiao | None
     regiao_imediata: RegiaoImediata | None
 

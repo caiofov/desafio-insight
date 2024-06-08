@@ -1,5 +1,5 @@
 from app.factories.ibge import get_ibge_service
-from app.models.ibge import Distrito
+from app.models.ibge import Distrito, Municipio
 from app.services.ibge import IBGEService
 from fastapi import APIRouter, Depends
 
@@ -14,3 +14,13 @@ def list_distritos(
     service: IBGEService = Depends(get_ibge_service),
 ) -> list[Distrito]:
     return service.list_distritos(page, per_page, search)
+
+
+@router.get("/municipios")
+def list_municipios(
+    page: int = 1,
+    per_page: int = 20,
+    search: str | None = None,
+    service: IBGEService = Depends(get_ibge_service),
+) -> list[Municipio]:
+    return service.list_municipios(page, per_page, search)

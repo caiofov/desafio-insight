@@ -1,4 +1,4 @@
-from app.models.ibge import Distrito
+from app.models.ibge import Distrito, Municipio
 from typing import Any, Callable, TypeVar
 from pydantic import BaseModel
 import requests
@@ -51,4 +51,17 @@ class IBGEService:
             per_page,
             lambda d: not search or d["nome"].lower().startswith(search),
             Distrito,
+        )
+
+    def list_municipios(
+        self, page: int, per_page: int, search: str | None = None
+    ) -> list[Municipio]:
+        search = search.lower() if search else None  # not case sensitive
+
+        return self._request_with_filter_and_pagination(
+            f"{self.localidades_url}/municipios",
+            page,
+            per_page,
+            lambda d: not search or d["nome"].lower().startswith(search),
+            Municipio,
         )

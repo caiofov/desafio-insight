@@ -13,6 +13,13 @@ def list_distritos(
     search: str | None = None,
     service: IBGEService = Depends(get_ibge_service),
 ) -> list[Distrito]:
+    """Lista todos os distritos com paginação e permite uma busca pelo nome
+
+    - `page` (int, optional): Página atual da paginação.
+    - `per_page` (int, optional): Tamanho da página da paginação.
+    - `search` (str | None, optional): Nome a ser pesquisado. Dá match com o início do nome do distrito.
+
+    """
     return service.list_distritos(page, per_page, search)
 
 
@@ -23,6 +30,13 @@ def list_municipios(
     search: str | None = None,
     service: IBGEService = Depends(get_ibge_service),
 ) -> list[MunicipioType]:
+    """Lista todos os municípios com paginação e permite uma busca pelo nome
+
+    - `page` (int, optional): Página atual da paginação.
+    - `per_page` (int, optional): Tamanho da página da paginação.
+    - `search` (str | None, optional): Nome a ser pesquisado. Dá match com o início do nome do município. (não é case sensitive)
+
+    """
     return service.list_municipios(page, per_page, search)
 
 
@@ -31,6 +45,13 @@ def get_municipio(
     id: str | int,
     service: IBGEService = Depends(get_ibge_service),
 ) -> MunicipioType:
+    """
+    Retorna o município com o ID inserido.
+
+    - `id` (str | int): ID do IBGE ou nome exato (não é case sensitive)
+
+    #### Sobre os IDs do IBGE, veja mais em https://servicodados.ibge.gov.br/api/docs/localidades#api-bq
+    """
     return service.get_municipio(id)
 
 
@@ -40,6 +61,13 @@ def list_estados(
     ids: list[int] = Query(None),
     service: IBGEService = Depends(get_ibge_service),
 ) -> list[UF]:
+    """Lista todos os estados e permite busca pelo nome ou seleção pelo ID do IBGE
+    #### Sobre os IDs do IBGE, veja mais em https://servicodados.ibge.gov.br/api/docs/localidades#api-bq
+
+    - `search` (str | None, optional): Nome a ser pesquisado. Dá match com o início do nome do estado. (não é case sensitive)
+    - `ids` (list[int], optional): IDS a serem selecionados.
+
+    """
     return service.list_estados(search, ids)
 
 
@@ -48,4 +76,11 @@ def get_estado(
     id: str | int,
     service: IBGEService = Depends(get_ibge_service),
 ) -> UF:
+    """
+    Retorna o estado com o ID inserido.
+
+    - `id` (str | int): ID do IBGE ou nome exato (não é case sensitive)
+
+    #### Sobre os IDs do IBGE, veja mais em https://servicodados.ibge.gov.br/api/docs/localidades#api-bq
+    """
     return service.get_estado(id)

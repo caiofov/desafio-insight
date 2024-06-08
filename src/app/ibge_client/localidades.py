@@ -56,13 +56,19 @@ class IBGELocalidadesClient(IBGEClientBase):
 
     @overload
     def list_estados(
-        self, return_model: bool = Literal[False]
+        self, ids: list[int] | None = None, return_model: bool = Literal[False]
     ) -> list[RawJSONType]: ...
 
     @overload
-    def list_estados(self, return_model: bool = Literal[True]) -> list[UF]: ...
+    def list_estados(
+        self, ids: list[int] | None = None, return_model: bool = Literal[True]
+    ) -> list[UF]: ...
 
-    def list_estados(self, return_model: bool = False) -> list[RawJSONType] | list[UF]:
-        estados: list[RawJSONType] = self._make_request("estados")
+    def list_estados(
+        self, ids: list[int] | None = None, return_model: bool = False
+    ) -> list[RawJSONType] | list[UF]:
+        path = "|".join([str(i) for i in ids]) if ids else ""
+        estados: list[RawJSONType] | RawJSONType = self._make_request(f"estados/{path}")
 
-        return estados if not return_model else [UF(**d) for d in estados]
+        estados_list = estados if isinstance(estados, list) else [estados]
+        return estados_list if not return_model else [UF(**d) for d in estados_list]

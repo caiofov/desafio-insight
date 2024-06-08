@@ -93,9 +93,11 @@ class IBGEService:
 
         raise ItemNotFound(f"Municipio - id: {id}")
 
-    def list_estados(self, search: str | None = None) -> list[UF]:
+    def list_estados(
+        self, search: str | None = None, ids: list[int] | None = None
+    ) -> list[UF]:
         search = search.lower() if search else None  # not case sensitive
-        raw_data = self.ibge_client.list_estados()
+        raw_data = self.ibge_client.list_estados(ids)
 
         data = []
         for d in raw_data:

@@ -1,5 +1,12 @@
-from app.models.ibge import UF, Distrito, Municipio
+from app.models.ibge import (
+    UF,
+    Distrito,
+    Municipio,
+    MunicipioType,
+    MunicipioWithImediata,
+)
 from typing import Any, Callable, TypeVar
+from app.utils.errors import ItemNotFound
 from app.utils.ibge_client import IBGELocalidadesClient
 from app.utils.types import RawJSONType
 from pydantic import BaseModel
@@ -65,6 +72,23 @@ class IBGEService:
             lambda d: not search or d["nome"].lower().startswith(search),
             Municipio,
         )
+
+    def get_municipio(self, id: int | str) -> MunicipioType:
+        if isinstance(id, int):
+            return self.ibge_client.get_municipio(id)
+        raw_data = self.ibge_client.list_municipios()
+
+        id = id.lower()  # not case sensitive
+
+        for data in raw_data:
+            if data["nome"].lower() == id:
+                return (
+                    MunicipioWithImediata(**data)
+                    if "regiao-imediata" in data
+                    else Municipio(**data)
+                )
+
+        raise ItemNotFound(f"Municipio - id: {id}")
 
     def list_estados(self, search: str | None = None) -> list[UF]:
         search = search.lower() if search else None  # not case sensitive

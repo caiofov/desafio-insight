@@ -1,5 +1,11 @@
 from typing import Any, Literal, overload
-from app.models.ibge import UF, Distrito, Municipio
+from app.models.ibge import (
+    UF,
+    Distrito,
+    Municipio,
+    MunicipioType,
+    MunicipioWithImediata,
+)
 from app.utils.types import RawJSONType
 import requests
 import abc
@@ -21,6 +27,10 @@ class IBGEClientBase(abc.ABC):
 class IBGELocalidadesClient(IBGEClientBase):
     def __init__(self) -> None:
         super().__init__(1, "localidades")
+
+    def get_municipio(self, id: int) -> MunicipioType:
+        r = self._make_request(f"municpios/{id}")
+        return MunicipioWithImediata(**r) if "regiao-imediata" in r else Municipio(**r)
 
     @overload
     def list_distritos(

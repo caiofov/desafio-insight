@@ -1,5 +1,5 @@
 from app.factories.ibge import get_ibge_service
-from app.models.ibge import UF, Distrito, MunicipioType
+from app.models.localidades import UF, Distrito, MunicipioType
 from app.services.ibge import IBGEService
 from fastapi import APIRouter, Depends
 

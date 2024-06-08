@@ -1,4 +1,4 @@
-from app.models.ibge import (
+from app.models.localidades import (
     UF,
     Distrito,
     Municipio,

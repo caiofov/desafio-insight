@@ -1,6 +1,6 @@
 from typing import Literal, overload
 from app.ibge_client.base import IBGEClientBase
-from app.models.ibge import (
+from app.models.localidades import (
     UF,
     Distrito,
     Municipio,

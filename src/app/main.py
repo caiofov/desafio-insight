@@ -1,13 +1,13 @@
 import datetime
 from fastapi import FastAPI, Request, Response
 
-from app.routes.ibge import router as ibge_router
+from app.routes.localidades import router as ibge_router
 import uvicorn
 import logging
 
 app = FastAPI()
 
-app.include_router(ibge_router, prefix="/ibge", tags=["IBGE"])
+app.include_router(ibge_router, prefix="/localidades", tags=["Localidades"])
 
 logger = logging.getLogger("uvicorn.info")
 

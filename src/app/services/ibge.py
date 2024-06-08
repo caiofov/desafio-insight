@@ -1,4 +1,3 @@
-from app.ibge_client.nomes import IBGENomesClient
 from app.models.localidades import (
     UF,
     Distrito,
@@ -7,9 +6,9 @@ from app.models.localidades import (
     MunicipioWithImediata,
 )
 from typing import Any, Callable, Literal, TypeVar, overload
-from app.models.nomes import Nome, NomeLocalidade, NomeLocalidadeWithDetails
+from app.models import Nome, NomeLocalidade, NomeLocalidadeWithDetails
 from app.utils.errors import ItemNotFound
-from app.ibge_client.localidades import IBGELocalidadesClient
+from app.ibge_client import IBGELocalidadesClient, IBGENomesClient
 from app.utils.types import RawJSONType
 from pydantic import BaseModel
 

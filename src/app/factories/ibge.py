@@ -1,7 +1,6 @@
 from typing import Iterator
-from app.ibge_client.nomes import IBGENomesClient
 from app.services.ibge import IBGEService
-from app.ibge_client import IBGELocalidadesClient
+from app.ibge_client import IBGELocalidadesClient, IBGENomesClient
 from fastapi import Depends
 
 

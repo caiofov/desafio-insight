@@ -6,8 +6,8 @@ from app.models.localidades import (
     MunicipioType,
     MunicipioWithImediata,
 )
-from typing import Any, Callable, TypeVar
-from app.models.nomes import Nome, NomeLocalidade
+from typing import Any, Callable, Literal, TypeVar, overload
+from app.models.nomes import Nome, NomeLocalidade, NomeLocalidadeWithDetails
 from app.utils.errors import ItemNotFound
 from app.ibge_client.localidades import IBGELocalidadesClient
 from app.utils.types import RawJSONType
@@ -121,5 +121,26 @@ class IBGEService:
     def get_names(self, names: list[str]) -> list[Nome]:
         return self.ibge_nomes.get_names(names)
 
-    def get_name_by_uf(self, name: str) -> list[NomeLocalidade]:
-        return self.ibge_nomes.get_name_grouped_by_uf(name)
+    @overload
+    def get_name_by_uf(
+        self, name: str, include_uf_name: Literal[False] = False
+    ) -> list[NomeLocalidade]: ...
+
+    @overload
+    def get_name_by_uf(
+        self, name: str, include_uf_name: Literal[True] = True
+    ) -> list[NomeLocalidadeWithDetails]: ...
+
+    def get_name_by_uf(
+        self, name: str, include_uf_name: bool = False
+    ) -> list[NomeLocalidade] | list[NomeLocalidadeWithDetails]:
+        data = self.ibge_nomes.get_name_grouped_by_uf(name)
+        if not include_uf_name:
+            return data
+        estados = {
+            e.id: e
+            for e in self.ibge_client.list_estados([d.localidade for d in data], True)
+        }
+        return [
+            NomeLocalidadeWithDetails.create(d, estados[d.localidade]) for d in data
+        ]

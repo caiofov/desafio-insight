@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any
+from app.models.localidades import UF
 from pydantic import BaseModel, field_validator
 
 
@@ -45,3 +46,19 @@ class Nome(BaseModel):
 class NomeLocalidade(BaseModel):
     localidade: int
     res: list[Ocorrencia]
+
+
+class NomeLocalidadeWithDetails(NomeLocalidade):
+    nome: str
+    sigla: str
+
+    @classmethod
+    def create(
+        cls, name_data: NomeLocalidade, place_data: UF
+    ) -> NomeLocalidadeWithDetails:
+        return cls(
+            localidade=name_data.localidade,
+            res=name_data.res,
+            nome=place_data.nome,
+            sigla=place_data.sigla,
+        )

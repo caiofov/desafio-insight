@@ -1,3 +1,4 @@
+import datetime
 from app.factories.ibge import get_ibge_service
 from app.models.ibge import Distrito
 from app.services.ibge import IBGEService
@@ -13,4 +14,7 @@ def list_distritos(
     search: str | None = None,
     service: IBGEService = Depends(get_ibge_service),
 ) -> list[Distrito]:
-    return service.list_distritos(page, per_page, search)
+    t = datetime.datetime.now()
+    r = service.list_distritos(page, per_page, search)
+    print((datetime.datetime.now() - t).total_seconds())
+    return r

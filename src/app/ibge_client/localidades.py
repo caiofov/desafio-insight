@@ -16,11 +16,11 @@ class IBGELocalidadesClient(IBGEClientBase):
 
     @overload
     def list_distritos(
-        self, return_model: bool = Literal[False]
+        self, return_model: Literal[False] = False
     ) -> list[RawJSONType]: ...
 
     @overload
-    def list_distritos(self, return_model: bool = Literal[True]) -> list[Distrito]: ...
+    def list_distritos(self, return_model: Literal[True] = True) -> list[Distrito]: ...
 
     def list_distritos(
         self, return_model: bool = False
@@ -35,12 +35,12 @@ class IBGELocalidadesClient(IBGEClientBase):
 
     @overload
     def list_municipios(
-        self, return_model: bool = Literal[False]
+        self, return_model: Literal[False] = False
     ) -> list[RawJSONType]: ...
 
     @overload
     def list_municipios(
-        self, return_model: bool = Literal[True]
+        self, return_model: Literal[True] = True
     ) -> list[Municipio]: ...
 
     def list_municipios(
@@ -56,12 +56,12 @@ class IBGELocalidadesClient(IBGEClientBase):
 
     @overload
     def list_estados(
-        self, ids: list[int] | None = None, return_model: bool = Literal[False]
+        self, ids: list[int] | None = None, return_model: Literal[False] = False
     ) -> list[RawJSONType]: ...
 
     @overload
     def list_estados(
-        self, ids: list[int] | None = None, return_model: bool = Literal[True]
+        self, ids: list[int] | None = None, return_model: Literal[True] = True
     ) -> list[UF]: ...
 
     def list_estados(

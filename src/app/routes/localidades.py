@@ -42,13 +42,13 @@ def list_municipios(
 
 @router.get("/municipios/{id}")
 def get_municipio(
-    id: str | int,
+    id: str,
     service: IBGEService = Depends(get_ibge_service),
 ) -> MunicipioType:
     """
     Retorna o município com o ID inserido.
 
-    - `id` (str | int): ID do IBGE ou nome exato (não é case sensitive)
+    - `id` (str): ID do IBGE ou nome exato (não é case sensitive)
 
     #### Sobre os IDs do IBGE, veja mais em https://servicodados.ibge.gov.br/api/docs/localidades#api-bq
     """

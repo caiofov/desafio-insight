@@ -75,8 +75,8 @@ class IBGEService:
             Municipio,
         )
 
-    def get_municipio(self, id: int | str) -> MunicipioType:
-        if isinstance(id, int):
+    def get_municipio(self, id: str) -> MunicipioType:
+        if id.isnumeric():
             return self.ibge_client.get_municipio(id)
         raw_data = self.ibge_client.list_municipios()
 
@@ -104,8 +104,8 @@ class IBGEService:
                 data.append(UF(**d))
         return data
 
-    def get_estado(self, id: int | str) -> UF:
-        if isinstance(id, int):
+    def get_estado(self, id: str) -> UF:
+        if id.isnumeric():
             return self.ibge_client.get_estado(id)
         raw_data = self.ibge_client.list_estados()
 

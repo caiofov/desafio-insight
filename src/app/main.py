@@ -14,11 +14,6 @@ app.include_router(nomes_router, prefix="/nomes", tags=["Nomes"])
 logger = logging.getLogger("uvicorn.info")
 
 
-@app.get("/")
-async def read_root():
-    return {"message": "Hello, World!"}
-
-
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     start_time = datetime.datetime.now()
